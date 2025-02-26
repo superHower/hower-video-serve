@@ -1,0 +1,36 @@
+import { Repository, SelectQueryBuilder } from 'typeorm';
+import { ICurrentUserType } from '@src/decorators';
+import { VideoDto, QueryVideoDto, PlayDto } from './dto/video.dto';
+import { CreateCommentDto, QueryCommentDto } from './dto/comment.dto';
+import { VideoPageVo, VideoVo } from './vo/video.vo';
+import { CommentPageVo } from './vo/comment.vo';
+import { VideoEntity } from './entities/video.entity';
+import { CommentEntity } from './entities/comment.entity';
+import { LikeEntity } from './entities/like.entity';
+import { PlayEntity } from './entities/play.entity';
+import { FavoriteEntity } from './entities/favorite.entity';
+export declare class VideoService {
+    private readonly videoRepository;
+    private readonly commentRepository;
+    private readonly likeRepository;
+    private readonly playRepository;
+    private readonly favoriteRepository;
+    constructor(videoRepository: Repository<VideoEntity>, commentRepository: Repository<CommentEntity>, likeRepository: Repository<LikeEntity>, playRepository: Repository<PlayEntity>, favoriteRepository: Repository<FavoriteEntity>);
+    createVideoApi(req: VideoDto, currentInfo: ICurrentUserType): Promise<string>;
+    createCommentApi(req: CreateCommentDto, currentInfo: ICurrentUserType): Promise<string>;
+    playVideoApi(req: PlayDto): Promise<string>;
+    getLikeApi(vid: number, uid: number): Promise<string>;
+    getFavoriteApi(vid: number, uid: number): Promise<string>;
+    deleteVideoByIdApi(id: number): Promise<string>;
+    batchDeleteVideoByIdListApi(idList: number[]): Promise<string>;
+    batchDeleteCommentByIdListApi(idList: number[]): Promise<string>;
+    deleteCommentByIdApi(vid: number, uid: number): Promise<string>;
+    modifyVideoStatusByIdApi(id: number): Promise<string>;
+    modifyVideoByIdApi(id: number, req: VideoDto): Promise<string>;
+    batchModifyVideoStatusByIdApi(idList: number[]): Promise<string>;
+    getVideoByIdApi(id: number): Promise<VideoVo | undefined>;
+    getVideoPageApi(queryOption: QueryVideoDto): Promise<VideoPageVo>;
+    getCommentsApi(queryOption: QueryCommentDto): Promise<CommentPageVo>;
+    get queryVideoBuilder(): SelectQueryBuilder<VideoEntity>;
+    get queryCommentBuilder(): SelectQueryBuilder<CommentEntity>;
+}

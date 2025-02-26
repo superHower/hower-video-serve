@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "D:\\MyWork\\project-person\\hower-video\\hower-video-nest\\logs\\.df9c8f96c1f5d74d423a91f6ef12be1a87c3e814-audit.json",
+    "files": [
+        {
+            "date": 1740556840008,
+            "name": "D:\\MyWork\\project-person\\hower-video\\hower-video-nest\\logs\\info-2025-02-26.log",
+            "hash": "3e7f736482c34d68b4f4835c775fe006832a841dea278db093e5ff613ce18d33"
+        }
+    ],
+    "hashType": "sha256"
+}
