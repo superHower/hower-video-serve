@@ -18,6 +18,7 @@ const favorite_entity_1 = require("./entities/favorite.entity");
 const play_entity_1 = require("./entities/play.entity");
 const video_controller_1 = require("./video.controller");
 const video_service_1 = require("./video.service");
+const comment_gateway_1 = require("../../event/comment.gateway");
 let VideoModule = class VideoModule {
 };
 exports.VideoModule = VideoModule;
@@ -33,7 +34,7 @@ exports.VideoModule = VideoModule = __decorate([
             typeorm_1.TypeOrmModule.forFeature([video_entity_1.VideoEntity, comment_entity_1.CommentEntity, like_entity_1.LikeEntity, favorite_entity_1.FavoriteEntity, play_entity_1.PlayEntity]),
         ],
         controllers: [video_controller_1.VideoController],
-        providers: [video_service_1.VideoService],
+        providers: [video_service_1.VideoService, comment_gateway_1.CommentGateway],
     })
 ], VideoModule);
 //# sourceMappingURL=video.module.js.map

@@ -24,13 +24,15 @@ const like_entity_1 = require("./entities/like.entity");
 const play_entity_1 = require("./entities/play.entity");
 const favorite_entity_1 = require("./entities/favorite.entity");
 const account_entity_1 = require("../account/entities/account.entity");
+const comment_gateway_1 = require("../../event/comment.gateway");
 let VideoService = class VideoService {
-    constructor(videoRepository, commentRepository, likeRepository, playRepository, favoriteRepository) {
+    constructor(videoRepository, commentRepository, likeRepository, playRepository, favoriteRepository, commentGateway) {
         this.videoRepository = videoRepository;
         this.commentRepository = commentRepository;
         this.likeRepository = likeRepository;
         this.playRepository = playRepository;
         this.favoriteRepository = favoriteRepository;
+        this.commentGateway = commentGateway;
     }
     async createVideoApi(req, currentInfo) {
         const { id } = currentInfo;
@@ -49,6 +51,7 @@ let VideoService = class VideoService {
         const { id, username } = currentInfo;
         const commentData = this.commentRepository.create(Object.assign(Object.assign({}, req), { accountId: id, username: username }));
         await this.commentRepository.save(commentData);
+        this.commentGateway.broadcastNewComment(Object.assign(Object.assign({}, commentData), { videoId: req.videoId }));
         return '评论创建成功';
     }
     async playVideoApi(req) {
@@ -256,6 +259,7 @@ exports.VideoService = VideoService = __decorate([
         typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
-        typeorm_2.Repository])
+        typeorm_2.Repository,
+        comment_gateway_1.CommentGateway])
 ], VideoService);
 //# sourceMappingURL=video.service.js.map

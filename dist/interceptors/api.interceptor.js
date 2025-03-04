@@ -11,13 +11,17 @@ const common_1 = require("@nestjs/common");
 const account_type_enum_1 = require("../enums/account.type.enum");
 let ApiInterceptor = class ApiInterceptor {
     constructor() {
-        this.whiteUrlList = ['/menus/btnList', '/menus', '/uploads'];
+        this.whiteUrlList = [
+            '/api/v1/menus/btnList',
+            '/api/v1/menus',
+            '/api/v1/admin/video/list'
+        ];
     }
     intercept(context, next) {
         const request = context.switchToHttp().getRequest();
         const method = request.method;
         const url = request.url;
-        const isWhiteListed = this.whiteUrlList.some((whiteUrl) => url.startsWith(whiteUrl));
+        const isWhiteListed = this.whiteUrlList.some((whiteUrl) => url == whiteUrl);
         if (isWhiteListed) {
             return next.handle();
         }

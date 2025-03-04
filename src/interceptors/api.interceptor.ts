@@ -13,17 +13,20 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class ApiInterceptor implements NestInterceptor {
   // 可以直接访问的
-  private readonly whiteUrlList: string[] = ['/menus/btnList', '/menus', '/uploads'];
+  private readonly whiteUrlList: string[] = [
+    '/api/v1/menus/btnList', 
+    '/api/v1/menus', 
+    '/api/v1/admin/video/list'
+  ];
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const request = context.switchToHttp().getRequest();
     /**当前请求方式 */
     const method = request.method;
     /**当前请求路径 */
     const url = request.url;
-
     // 检查请求路径是否以白名单中的路径开头
     const isWhiteListed = this.whiteUrlList.some(
-      (whiteUrl) => url.startsWith(whiteUrl) // 直接匹配原始路径，避免路径被修改
+      (whiteUrl) => url == whiteUrl // 直接匹配原始路径，避免路径被修改
     );
 
     if (isWhiteListed) {

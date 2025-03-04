@@ -11,6 +11,7 @@ import { PlayEntity } from './entities/play.entity';
 
 import { VideoController } from './video.controller';
 import { VideoService } from './video.service';
+import { CommentGateway } from '../../event/comment.gateway';
 
 @Module({
   imports: [
@@ -23,6 +24,6 @@ import { VideoService } from './video.service';
     TypeOrmModule.forFeature([VideoEntity, CommentEntity, LikeEntity, FavoriteEntity, PlayEntity]), // 注册视频实体
   ],
   controllers: [VideoController], // 声明控制器
-  providers: [VideoService], // 注册服务
+  providers: [VideoService, CommentGateway], // 注册服务
 })
 export class VideoModule {}

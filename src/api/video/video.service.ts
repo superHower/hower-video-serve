@@ -18,6 +18,8 @@ import { PlayEntity } from './entities/play.entity';
 import { FavoriteEntity } from './entities/favorite.entity';
 import { AccountEntity } from '../account/entities/account.entity';
 
+import { CommentGateway } from '../../event/comment.gateway';
+
 @Injectable()
 export class VideoService {
   constructor(
@@ -30,7 +32,9 @@ export class VideoService {
     @InjectRepository(PlayEntity)
     private readonly playRepository: Repository<PlayEntity>,
     @InjectRepository(FavoriteEntity)
-    private readonly favoriteRepository: Repository<FavoriteEntity>
+    private readonly favoriteRepository: Repository<FavoriteEntity>,
+
+    private readonly commentGateway: CommentGateway,
   ) {}
 
   /**
@@ -65,6 +69,13 @@ export class VideoService {
       username: username,
     });
     await this.commentRepository.save(commentData);
+    // 广播新评论
+    this.commentGateway.broadcastNewComment(
+      {
+        ...commentData,
+        videoId: req.videoId,
+      }
+    );
     return '评论创建成功';
   }
   /**

@@ -9,13 +9,15 @@ import { CommentEntity } from './entities/comment.entity';
 import { LikeEntity } from './entities/like.entity';
 import { PlayEntity } from './entities/play.entity';
 import { FavoriteEntity } from './entities/favorite.entity';
+import { CommentGateway } from '../../event/comment.gateway';
 export declare class VideoService {
     private readonly videoRepository;
     private readonly commentRepository;
     private readonly likeRepository;
     private readonly playRepository;
     private readonly favoriteRepository;
-    constructor(videoRepository: Repository<VideoEntity>, commentRepository: Repository<CommentEntity>, likeRepository: Repository<LikeEntity>, playRepository: Repository<PlayEntity>, favoriteRepository: Repository<FavoriteEntity>);
+    private readonly commentGateway;
+    constructor(videoRepository: Repository<VideoEntity>, commentRepository: Repository<CommentEntity>, likeRepository: Repository<LikeEntity>, playRepository: Repository<PlayEntity>, favoriteRepository: Repository<FavoriteEntity>, commentGateway: CommentGateway);
     createVideoApi(req: VideoDto, currentInfo: ICurrentUserType): Promise<string>;
     createCommentApi(req: CreateCommentDto, currentInfo: ICurrentUserType): Promise<string>;
     playVideoApi(req: PlayDto): Promise<string>;
