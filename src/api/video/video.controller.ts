@@ -107,8 +107,11 @@ export class VideoController {
 
   // 根据id获取视频
   @Get(':id')
-  async getVideoByIdApi(@Param('id', new ParseIntPipe()) id: number): Promise<VideoVo | undefined> {
-    return await this.videoService.getVideoByIdApi(id);
+  async getVideoByIdApi(
+    @Param('id', new ParseIntPipe()) id: number,
+    @CurrentUser('userInfo') user: ICurrentUserType
+  ): Promise<VideoVo | undefined> {
+    return await this.videoService.getVideoByIdApi(id, user.id);
   }
 
   // 获取视频评论列表

@@ -13,7 +13,7 @@ export class VideoEntity extends SharedEntity {
   @Column('varchar', { name: 'video_url', length: 512, comment: '视频文件URL' })
   videoUrl!: string;
 
-  @Column('varchar', { name: 'cover_url', length: 512, nullable: true, comment: '封面图URL' })
+  @Column('mediumtext', { name: 'cover_url', nullable: true, comment: '封面图URL' })
   coverUrl!: string | null;
 
   // 保留媒体属性
@@ -24,8 +24,8 @@ export class VideoEntity extends SharedEntity {
   fileSize!: number;
 
   // 标签改为JSON格式存储
-  @Column('tinyint', { default: 0, comment: '视频标签' })
-  tags!: number | null;
+  @Column('varchar', { length: 255, comment: '视频标签' })
+  tags!: string | null;
 
   // 状态枚举
   @Column('tinyint', { default: 0, comment: '状态:0-正常,1-下架,2-审核中' })

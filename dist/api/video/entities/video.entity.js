@@ -28,7 +28,7 @@ __decorate([
     __metadata("design:type", String)
 ], VideoEntity.prototype, "videoUrl", void 0);
 __decorate([
-    (0, typeorm_1.Column)('varchar', { name: 'cover_url', length: 512, nullable: true, comment: '封面图URL' }),
+    (0, typeorm_1.Column)('mediumtext', { name: 'cover_url', nullable: true, comment: '封面图URL' }),
     __metadata("design:type", Object)
 ], VideoEntity.prototype, "coverUrl", void 0);
 __decorate([
@@ -40,7 +40,7 @@ __decorate([
     __metadata("design:type", Number)
 ], VideoEntity.prototype, "fileSize", void 0);
 __decorate([
-    (0, typeorm_1.Column)('tinyint', { default: 0, comment: '视频标签' }),
+    (0, typeorm_1.Column)('varchar', { length: 255, comment: '视频标签' }),
     __metadata("design:type", Object)
 ], VideoEntity.prototype, "tags", void 0);
 __decorate([

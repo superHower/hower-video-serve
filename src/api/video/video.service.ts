@@ -103,6 +103,7 @@ export class VideoService {
       return '点赞成功';
     }
   }
+
   /**
    * 收藏
    */
@@ -213,11 +214,18 @@ export class VideoService {
   /**
    * @Description: 根据id获取视频
    */
-  async getVideoByIdApi(id: number): Promise<VideoVo | undefined> {
+  async getVideoByIdApi(id: number, uid: number): Promise<VideoVo | undefined> {
     const video = await this.queryVideoBuilder.where('video.id  = :id', { id }).getRawOne();
 
     const playCount = await this.playRepository.count({ where: { videoId: id } });
-    return { ...video, playCount };
+    const likeData = await this.likeRepository.findOne({ where: { videoId: id, accountId: uid } });
+    const favData = await this.favoriteRepository.findOne({ where: { videoId: id, accountId: uid } });
+    return { 
+      ...video, 
+      playCount, 
+      isLiked: likeData ? true : false, 
+      isCollected : favData ? true : false 
+    };
   }
   /**
    * @Description: 分页获取视频
@@ -228,44 +236,57 @@ export class VideoService {
       status,
       accountId,
       tags,
+      isHot,
+      type,
       pageNumber = PageEnum.PAGE_NUMBER,
       pageSize = PageEnum.PAGE_SIZE,
     } = queryOption;
-    console.log('输出', queryOption);
+    let videoIds: number[] = []
+    if(type == 1) {
+      // 获取用户点赞的视频ID列表
+      const likeList = await this.likeRepository.find({ where: { accountId: accountId }, select: ['videoId']});
+      videoIds = likeList.map(item => item.videoId);
+    }else if (type == 2) {
+      // 获取用户收藏的视频ID列表
+      const favoriteList = await this.favoriteRepository.find({ where: { accountId: accountId }, select: ['videoId']});
+      videoIds = favoriteList.map(item => item.videoId);
+    }
+
     const query = new Map<string, FindOperator<string>>();
-    if (title) {
-      query.set('title', ILike(`%${title}%`));
-    }
-    if (accountId) {
-      query.set('accountId', Equal(accountId + ''));
-    }
-    if (status! >= 0) {
-      query.set('status', Equal(status + ''));
-    }
-    if (tags! >= 0) {
-      query.set('tags', Equal(tags + ''));
-    }
+    if (title) query.set('title', ILike(`%${title}%`));
+    if (accountId) query.set('accountId', Equal(accountId + ''));
+    if (status! >= 0) query.set('status', Equal(status + ''));
+    if (tags) { query.set('tags', ILike(`%${tags}%`)); }    
     query.set('deletedAt', IsNull());
 
-    const queryBuilder = this.queryVideoBuilder;
-    const data = await queryBuilder
+    let data:any = null;
+    if(type == 0) {
+      data = await this.queryVideoBuilder
       .where(mapToObj(query))
-      .orderBy({ id: 'DESC' })
+      .orderBy(isHot ? { 'video.likeCount': 'DESC', id: 'DESC' } : { id: 'DESC' })
       .offset((pageNumber - 1) * pageSize)
       .limit(pageSize)
       .printSql()
       .getRawMany();
+    }else {
+      data = await this.queryVideoBuilder
+      .where('video.id IN (:...ids)', { ids: videoIds })
+      .andWhere(mapToObj(query))
+      .orderBy(isHot ? { 'video.likeCount': 'DESC', id: 'DESC' } : { id: 'DESC' })
+      .offset((pageNumber - 1) * pageSize)
+      .limit(pageSize)
+      .printSql()
+      .getRawMany()
+    }
+
     const total: number = await this.videoRepository
       .createQueryBuilder('video')
       .where(mapToObj(query))
       .getCount();
-    return {
-      data,
-      total,
-      pageNumber,
-      pageSize,
-    };
+
+      return { data, total, pageNumber: 1, pageSize: 10 };
   }
+
 
   /**
    * @Description: 分页获取评论
@@ -327,6 +348,8 @@ export class VideoService {
           qb
             .select('account.id', 'accountId')
             .addSelect('account.username', 'accountUsername')
+            .addSelect('account.nickname', 'accountNickname')  // 添加昵称
+            .addSelect('account.avatar', 'accountAvatar')      // 添加头像
             .from(AccountEntity, 'account'),
         'account',
         'video.accountId=account.accountId'
@@ -341,6 +364,17 @@ export class VideoService {
       .addSelect('comment.parentId', 'parentId')
       .addSelect('comment.accountId', 'accountId')
       .addSelect('comment.username', 'username')
-      .addSelect('comment.createdAt', 'createdAt');
+      .addSelect('comment.createdAt', 'createdAt')
+      .leftJoinAndMapOne(
+        'xx',
+        (qb) =>
+          qb
+            .select('account.id', 'accountId')
+            .addSelect('account.nickname', 'accountNickname')
+            .addSelect('account.avatar', 'accountAvatar')
+            .from(AccountEntity, 'account'),
+        'account',
+        'comment.accountId=account.accountId'  // 修改这里，使用 accountId 而不是 id
+      );
   }
 }

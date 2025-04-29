@@ -6,7 +6,7 @@ export declare class VideoEntity extends SharedEntity {
     coverUrl: string | null;
     duration: number;
     fileSize: number;
-    tags: number | null;
+    tags: string | null;
     status: number;
     accountId: number;
     playCount?: number;

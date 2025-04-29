@@ -22,9 +22,35 @@ __decorate([
 ], AccountDto.prototype, "username", void 0);
 __decorate([
     (0, class_validator_1.MaxLength)(50, { message: '密码最大长度为50' }),
-    (0, class_validator_1.IsNotEmpty)({ message: '密码不能为空' }),
+    (0, class_validator_1.IsOptional)({ message: '密码' }),
     __metadata("design:type", String)
 ], AccountDto.prototype, "password", void 0);
+__decorate([
+    (0, class_validator_1.MaxLength)(512, { message: '简介最大长度为512' }),
+    (0, class_validator_1.IsOptional)({ message: '简介' }),
+    __metadata("design:type", String)
+], AccountDto.prototype, "info", void 0);
+__decorate([
+    (0, class_validator_1.MaxLength)(10, { message: '昵称最大长度为10' }),
+    (0, class_validator_1.IsOptional)({ message: '昵称' }),
+    __metadata("design:type", String)
+], AccountDto.prototype, "nickname", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)({ message: '头像' }),
+    __metadata("design:type", String)
+], AccountDto.prototype, "avatar", void 0);
+__decorate([
+    (0, class_validator_1.IsInt)({ message: '性别必须是整数' }),
+    (0, class_transformer_1.Type)(() => Number),
+    (0, class_validator_1.IsOptional)({ message: '性别' }),
+    __metadata("design:type", Number)
+], AccountDto.prototype, "gender", void 0);
+__decorate([
+    (0, class_validator_1.IsInt)({ message: '年龄必须是整数' }),
+    (0, class_transformer_1.Type)(() => Number),
+    (0, class_validator_1.IsOptional)({ message: '年龄' }),
+    __metadata("design:type", Number)
+], AccountDto.prototype, "age", void 0);
 __decorate([
     (0, class_validator_1.Min)(1, { message: '排序最小值为1' }),
     (0, class_validator_1.IsInt)({ message: '排序必须是整数' }),

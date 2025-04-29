@@ -20,6 +20,6 @@ export declare class VideoController {
     modifyVideoByIdApi(id: number, req: VideoDto): Promise<string>;
     batchModifyVideoStatusByIdApi(idList: number[]): Promise<string>;
     getVideoPageApi(queryOption: QueryVideoDto): Promise<VideoPageVo>;
-    getVideoByIdApi(id: number): Promise<VideoVo | undefined>;
+    getVideoByIdApi(id: number, user: ICurrentUserType): Promise<VideoVo | undefined>;
     getCommentsApi(queryOption: QueryCommentDto): Promise<CommentPageVo>;
 }

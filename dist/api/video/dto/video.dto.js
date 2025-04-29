@@ -46,8 +46,7 @@ __decorate([
 ], VideoDto.prototype, "fileSize", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsInt)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], VideoDto.prototype, "tags", void 0);
 __decorate([
     (0, class_validator_1.Min)(0, { message: '状态范围0-5' }),
@@ -86,7 +85,16 @@ __decorate([
     (0, class_validator_1.IsInt)(),
     (0, class_transformer_1.Type)(() => Number),
     __metadata("design:type", Number)
+], QueryVideoDto.prototype, "type", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
 ], QueryVideoDto.prototype, "tags", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Boolean)
+], QueryVideoDto.prototype, "isHot", void 0);
 class PlayDto {
 }
 exports.PlayDto = PlayDto;

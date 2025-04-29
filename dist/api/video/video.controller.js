@@ -63,8 +63,8 @@ let VideoController = class VideoController {
         console.log('controller', queryOption);
         return await this.videoService.getVideoPageApi(queryOption);
     }
-    async getVideoByIdApi(id) {
-        return await this.videoService.getVideoByIdApi(id);
+    async getVideoByIdApi(id, user) {
+        return await this.videoService.getVideoByIdApi(id, user.id);
     }
     async getCommentsApi(queryOption) {
         console.log('controller', queryOption);
@@ -172,8 +172,9 @@ __decorate([
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id', new common_1.ParseIntPipe())),
+    __param(1, (0, decorators_1.CurrentUser)('userInfo')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
 ], VideoController.prototype, "getVideoByIdApi", null);
 __decorate([

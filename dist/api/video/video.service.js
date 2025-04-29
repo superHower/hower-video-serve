@@ -144,46 +144,60 @@ let VideoService = class VideoService {
         });
         return affected ? '修改成功' : '修改失败';
     }
-    async getVideoByIdApi(id) {
+    async getVideoByIdApi(id, uid) {
         const video = await this.queryVideoBuilder.where('video.id  = :id', { id }).getRawOne();
         const playCount = await this.playRepository.count({ where: { videoId: id } });
-        return Object.assign(Object.assign({}, video), { playCount });
+        const likeData = await this.likeRepository.findOne({ where: { videoId: id, accountId: uid } });
+        const favData = await this.favoriteRepository.findOne({ where: { videoId: id, accountId: uid } });
+        return Object.assign(Object.assign({}, video), { playCount, isLiked: likeData ? true : false, isCollected: favData ? true : false });
     }
     async getVideoPageApi(queryOption) {
-        const { title, status, accountId, tags, pageNumber = enums_1.PageEnum.PAGE_NUMBER, pageSize = enums_1.PageEnum.PAGE_SIZE, } = queryOption;
-        console.log('输出', queryOption);
+        const { title, status, accountId, tags, isHot, type, pageNumber = enums_1.PageEnum.PAGE_NUMBER, pageSize = enums_1.PageEnum.PAGE_SIZE, } = queryOption;
+        let videoIds = [];
+        if (type == 1) {
+            const likeList = await this.likeRepository.find({ where: { accountId: accountId }, select: ['videoId'] });
+            videoIds = likeList.map(item => item.videoId);
+        }
+        else if (type == 2) {
+            const favoriteList = await this.favoriteRepository.find({ where: { accountId: accountId }, select: ['videoId'] });
+            videoIds = favoriteList.map(item => item.videoId);
+        }
         const query = new Map();
-        if (title) {
+        if (title)
             query.set('title', (0, typeorm_2.ILike)(`%${title}%`));
-        }
-        if (accountId) {
+        if (accountId)
             query.set('accountId', (0, typeorm_2.Equal)(accountId + ''));
-        }
-        if (status >= 0) {
+        if (status >= 0)
             query.set('status', (0, typeorm_2.Equal)(status + ''));
-        }
-        if (tags >= 0) {
-            query.set('tags', (0, typeorm_2.Equal)(tags + ''));
+        if (tags) {
+            query.set('tags', (0, typeorm_2.ILike)(`%${tags}%`));
         }
         query.set('deletedAt', (0, typeorm_2.IsNull)());
-        const queryBuilder = this.queryVideoBuilder;
-        const data = await queryBuilder
-            .where((0, utils_1.mapToObj)(query))
-            .orderBy({ id: 'DESC' })
-            .offset((pageNumber - 1) * pageSize)
-            .limit(pageSize)
-            .printSql()
-            .getRawMany();
+        let data = null;
+        if (type == 0) {
+            data = await this.queryVideoBuilder
+                .where((0, utils_1.mapToObj)(query))
+                .orderBy(isHot ? { 'video.likeCount': 'DESC', id: 'DESC' } : { id: 'DESC' })
+                .offset((pageNumber - 1) * pageSize)
+                .limit(pageSize)
+                .printSql()
+                .getRawMany();
+        }
+        else {
+            data = await this.queryVideoBuilder
+                .where('video.id IN (:...ids)', { ids: videoIds })
+                .andWhere((0, utils_1.mapToObj)(query))
+                .orderBy(isHot ? { 'video.likeCount': 'DESC', id: 'DESC' } : { id: 'DESC' })
+                .offset((pageNumber - 1) * pageSize)
+                .limit(pageSize)
+                .printSql()
+                .getRawMany();
+        }
         const total = await this.videoRepository
             .createQueryBuilder('video')
             .where((0, utils_1.mapToObj)(query))
             .getCount();
-        return {
-            data,
-            total,
-            pageNumber,
-            pageSize,
-        };
+        return { data, total, pageNumber: 1, pageSize: 10 };
     }
     async getCommentsApi(queryOption) {
         const { videoId, pageNumber = enums_1.PageEnum.PAGE_NUMBER, pageSize = enums_1.PageEnum.PAGE_SIZE, } = queryOption;
@@ -233,6 +247,8 @@ let VideoService = class VideoService {
             .leftJoinAndMapOne('xx', (qb) => qb
             .select('account.id', 'accountId')
             .addSelect('account.username', 'accountUsername')
+            .addSelect('account.nickname', 'accountNickname')
+            .addSelect('account.avatar', 'accountAvatar')
             .from(account_entity_1.AccountEntity, 'account'), 'account', 'video.accountId=account.accountId');
     }
     get queryCommentBuilder() {
@@ -244,7 +260,12 @@ let VideoService = class VideoService {
             .addSelect('comment.parentId', 'parentId')
             .addSelect('comment.accountId', 'accountId')
             .addSelect('comment.username', 'username')
-            .addSelect('comment.createdAt', 'createdAt');
+            .addSelect('comment.createdAt', 'createdAt')
+            .leftJoinAndMapOne('xx', (qb) => qb
+            .select('account.id', 'accountId')
+            .addSelect('account.nickname', 'accountNickname')
+            .addSelect('account.avatar', 'accountAvatar')
+            .from(account_entity_1.AccountEntity, 'account'), 'account', 'comment.accountId=account.accountId');
     }
 };
 exports.VideoService = VideoService;

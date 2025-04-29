@@ -22,6 +22,46 @@ export class AccountEntity extends SharedEntity {
   password!: string;
 
   @Column({
+    type: 'varchar',
+    length: 255,
+    name: 'nickname',
+    nullable: true,
+    comment: '昵称',
+  })
+  nickname!: string;
+
+  @Column({
+    type: 'text',
+    name: 'info',
+    nullable: true,
+    comment: '简介',
+  })
+  info!: string;
+
+  @Column({
+    type: 'varchar',
+    length: 255,
+    name: 'avatar',
+    nullable: true,
+    comment: '头像',
+  })
+  avatar!: string;
+
+  @Column({
+    type: 'int',
+    name: 'gender',
+    comment: '性别',
+  })
+  gender!: number;
+
+  @Column({
+    type: 'int',
+    name: 'age',
+    comment: '年龄',
+  })
+  age!: number;
+
+  @Column({
     type: 'tinyint',
     name: 'account_type',
     nullable: true,

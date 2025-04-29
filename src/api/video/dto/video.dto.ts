@@ -25,8 +25,7 @@ export class VideoDto {
   fileSize?: number;
 
   @IsOptional()
-  @IsInt()
-  tags?: number;
+  tags?: string;
 
   @Min(0, { message: '状态范围0-5' })
   @Max(3, { message: '状态范围0-3' })
@@ -43,7 +42,7 @@ export class QueryVideoDto extends QueryOptionsDto {
   @Min(1)
   @IsInt()
   @Type(() => Number)
-  accountId?: number;
+  accountId?: number; // 查询用户的所有作品
 
   @IsOptional()
   @Min(0)
@@ -57,7 +56,14 @@ export class QueryVideoDto extends QueryOptionsDto {
   @Max(2)
   @IsInt()
   @Type(() => Number)
-  tags?: number;
+  type?: number;
+
+  @IsOptional()
+  @IsString()
+  tags?: string;
+ 
+  @IsOptional()
+  isHot?: boolean;
 }
 
 // 播放记录查询

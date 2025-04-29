@@ -30,7 +30,7 @@ export declare class VideoService {
     modifyVideoStatusByIdApi(id: number): Promise<string>;
     modifyVideoByIdApi(id: number, req: VideoDto): Promise<string>;
     batchModifyVideoStatusByIdApi(idList: number[]): Promise<string>;
-    getVideoByIdApi(id: number): Promise<VideoVo | undefined>;
+    getVideoByIdApi(id: number, uid: number): Promise<VideoVo | undefined>;
     getVideoPageApi(queryOption: QueryVideoDto): Promise<VideoPageVo>;
     getCommentsApi(queryOption: QueryCommentDto): Promise<CommentPageVo>;
     get queryVideoBuilder(): SelectQueryBuilder<VideoEntity>;

@@ -9,10 +9,13 @@ export class VideoVo extends QueryVo {
 
   readonly duration!: number; // 视频时长(秒)
   readonly fileSize!: number; // 文件大小(字节)
-  readonly tags!: number; // 改为数组类型
+  readonly tags!: string; // 改为数组类型
   readonly status!: number; // 明确声明 status 字段的类型
 
   readonly accountId!: number; // 账户Id
+  readonly accountName!: string; // 账户名称
+  readonly accountAvatar!: string; // 账户头像
+  readonly accountNickname!: string; // 账户签名
 
   // 虚拟统计字段
   readonly playCount!: number; // 从统计表获取
@@ -20,7 +23,7 @@ export class VideoVo extends QueryVo {
   readonly favoriteCount!: number; // 从统计表获取
   readonly commentCount!: number; // 新增评论数
 
-  // 互动状态（需要后处理）
+  // 互动状态
   readonly isLiked?: boolean; // 当前用户是否点赞
   readonly isCollected?: boolean; // 当前用户是否收藏
 }

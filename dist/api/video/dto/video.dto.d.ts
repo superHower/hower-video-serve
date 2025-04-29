@@ -6,14 +6,16 @@ export declare class VideoDto {
     coverUrl?: string;
     duration?: number;
     fileSize?: number;
-    tags?: number;
+    tags?: string;
     status?: number;
 }
 export declare class QueryVideoDto extends QueryOptionsDto {
     title?: string;
     accountId?: number;
     status?: number;
-    tags?: number;
+    type?: number;
+    tags?: string;
+    isHot?: boolean;
 }
 export declare class PlayDto {
     videoId?: number;

@@ -357,10 +357,14 @@ CREATE TABLE `video_favorite` (
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'IGNORE_SPACE,ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `after_video_favorite_insert` AFTER INSERT ON `video_favorite` FOR EACH ROW BEGIN
-    IF NEW.deleted_at IS NULL THEN
-        UPDATE video SET favorite_cnt = favorite_cnt + 1 WHERE id = NEW.video_id;
-    END IF;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `after_video_favorite_insert` AFTER INSERT ON `video_favorite` FOR EACH ROW BEGIN
+
+    IF NEW.deleted_at IS NULL THEN
+
+        UPDATE video SET favorite_cnt = favorite_cnt + 1 WHERE id = NEW.video_id;
+
+    END IF;
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -376,12 +380,18 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'IGNORE_SPACE,ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `after_video_favorite_update` AFTER UPDATE ON `video_favorite` FOR EACH ROW BEGIN
-    IF OLD.deleted_at IS NULL AND NEW.deleted_at IS NOT NULL THEN
-        UPDATE video SET favorite_cnt = favorite_cnt - 1 WHERE id = NEW.video_id;
-    ELSEIF OLD.deleted_at IS NOT NULL AND NEW.deleted_at IS NULL THEN
-        UPDATE video SET favorite_cnt = favorite_cnt + 1 WHERE id = NEW.video_id;
-    END IF;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `after_video_favorite_update` AFTER UPDATE ON `video_favorite` FOR EACH ROW BEGIN
+
+    IF OLD.deleted_at IS NULL AND NEW.deleted_at IS NOT NULL THEN
+
+        UPDATE video SET favorite_cnt = favorite_cnt - 1 WHERE id = NEW.video_id;
+
+    ELSEIF OLD.deleted_at IS NOT NULL AND NEW.deleted_at IS NULL THEN
+
+        UPDATE video SET favorite_cnt = favorite_cnt + 1 WHERE id = NEW.video_id;
+
+    END IF;
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -397,10 +407,14 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'IGNORE_SPACE,ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `after_video_favorite_delete` AFTER DELETE ON `video_favorite` FOR EACH ROW BEGIN
-    IF OLD.deleted_at IS NULL THEN
-        UPDATE video SET favorite_cnt = favorite_cnt - 1 WHERE id = OLD.video_id;
-    END IF;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `after_video_favorite_delete` AFTER DELETE ON `video_favorite` FOR EACH ROW BEGIN
+
+    IF OLD.deleted_at IS NULL THEN
+
+        UPDATE video SET favorite_cnt = favorite_cnt - 1 WHERE id = OLD.video_id;
+
+    END IF;
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -436,10 +450,14 @@ CREATE TABLE `video_like` (
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'IGNORE_SPACE,ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `after_video_like_insert` AFTER INSERT ON `video_like` FOR EACH ROW BEGIN
-    IF NEW.deleted_at IS NULL THEN
-        UPDATE video SET like_cnt = like_cnt + 1 WHERE id = NEW.video_id;
-    END IF;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `after_video_like_insert` AFTER INSERT ON `video_like` FOR EACH ROW BEGIN
+
+    IF NEW.deleted_at IS NULL THEN
+
+        UPDATE video SET like_cnt = like_cnt + 1 WHERE id = NEW.video_id;
+
+    END IF;
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -455,12 +473,18 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'IGNORE_SPACE,ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `after_video_like_update` AFTER UPDATE ON `video_like` FOR EACH ROW BEGIN
-    IF OLD.deleted_at IS NULL AND NEW.deleted_at IS NOT NULL THEN
-        UPDATE video SET like_cnt = like_cnt - 1 WHERE id = NEW.video_id;
-    ELSEIF OLD.deleted_at IS NOT NULL AND NEW.deleted_at IS NULL THEN
-        UPDATE video SET like_cnt = like_cnt + 1 WHERE id = NEW.video_id;
-    END IF;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `after_video_like_update` AFTER UPDATE ON `video_like` FOR EACH ROW BEGIN
+
+    IF OLD.deleted_at IS NULL AND NEW.deleted_at IS NOT NULL THEN
+
+        UPDATE video SET like_cnt = like_cnt - 1 WHERE id = NEW.video_id;
+
+    ELSEIF OLD.deleted_at IS NOT NULL AND NEW.deleted_at IS NULL THEN
+
+        UPDATE video SET like_cnt = like_cnt + 1 WHERE id = NEW.video_id;
+
+    END IF;
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -476,10 +500,14 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'IGNORE_SPACE,ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `after_video_like_delete` AFTER DELETE ON `video_like` FOR EACH ROW BEGIN
-    IF OLD.deleted_at IS NULL THEN
-        UPDATE video SET like_cnt = like_cnt - 1 WHERE id = OLD.video_id;
-    END IF;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `after_video_like_delete` AFTER DELETE ON `video_like` FOR EACH ROW BEGIN
+
+    IF OLD.deleted_at IS NULL THEN
+
+        UPDATE video SET like_cnt = like_cnt - 1 WHERE id = OLD.video_id;
+
+    END IF;
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -515,10 +543,14 @@ CREATE TABLE `video_play` (
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'IGNORE_SPACE,ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `after_video_play_insert` AFTER INSERT ON `video_play` FOR EACH ROW BEGIN
-    IF NEW.deleted_at IS NULL THEN
-        UPDATE video SET play_cnt = play_cnt + 1 WHERE id = NEW.video_id;
-    END IF;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `after_video_play_insert` AFTER INSERT ON `video_play` FOR EACH ROW BEGIN
+
+    IF NEW.deleted_at IS NULL THEN
+
+        UPDATE video SET play_cnt = play_cnt + 1 WHERE id = NEW.video_id;
+
+    END IF;
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -534,12 +566,18 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'IGNORE_SPACE,ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `after_video_play_update` AFTER UPDATE ON `video_play` FOR EACH ROW BEGIN
-    IF OLD.deleted_at IS NULL AND NEW.deleted_at IS NOT NULL THEN
-        UPDATE video SET play_cnt = play_cnt - 1 WHERE id = NEW.video_id;
-    ELSEIF OLD.deleted_at IS NOT NULL AND NEW.deleted_at IS NULL THEN
-        UPDATE video SET play_cnt = play_cnt + 1 WHERE id = NEW.video_id;
-    END IF;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `after_video_play_update` AFTER UPDATE ON `video_play` FOR EACH ROW BEGIN
+
+    IF OLD.deleted_at IS NULL AND NEW.deleted_at IS NOT NULL THEN
+
+        UPDATE video SET play_cnt = play_cnt - 1 WHERE id = NEW.video_id;
+
+    ELSEIF OLD.deleted_at IS NOT NULL AND NEW.deleted_at IS NULL THEN
+
+        UPDATE video SET play_cnt = play_cnt + 1 WHERE id = NEW.video_id;
+
+    END IF;
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -555,10 +593,14 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'IGNORE_SPACE,ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `after_video_play_delete` AFTER DELETE ON `video_play` FOR EACH ROW BEGIN
-    IF OLD.deleted_at IS NULL THEN
-        UPDATE video SET play_cnt = play_cnt - 1 WHERE id = OLD.video_id;
-    END IF;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `after_video_play_delete` AFTER DELETE ON `video_play` FOR EACH ROW BEGIN
+
+    IF OLD.deleted_at IS NULL THEN
+
+        UPDATE video SET play_cnt = play_cnt - 1 WHERE id = OLD.video_id;
+
+    END IF;
+
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -580,3 +622,23 @@ DELIMITER ;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2025-02-25 15:39:09
+
+
+ALTER TABLE `video` MODIFY `tags` varchar(255) DEFAULT '0' COMMENT '视频标签';
+ALTER TABLE video
+  MODIFY COLUMN cover_url mediumtext COMMENT '封面图URL';
+
+ALTER TABLE account
+  ADD COLUMN nickname VARCHAR(255);
+
+ALTER TABLE account
+  ADD COLUMN info text COMMENT '个人简介';
+
+ALTER TABLE account
+  ADD COLUMN avatar VARCHAR(255) COMMENT '头像URL';
+
+ALTER TABLE account
+  ADD COLUMN gender int COMMENT '性别';
+
+ALTER TABLE account
+  ADD COLUMN age int COMMENT '年龄';

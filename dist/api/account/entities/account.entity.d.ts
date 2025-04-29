@@ -2,6 +2,11 @@ import { SharedEntity } from '@src/shared/entities/base.entity';
 export declare class AccountEntity extends SharedEntity {
     username: string;
     password: string;
+    nickname: string;
+    info: string;
+    avatar: string;
+    gender: number;
+    age: number;
     accountType: number;
     tenantId: number;
     parentId: number;

@@ -37,6 +37,51 @@ __decorate([
 ], AccountEntity.prototype, "password", void 0);
 __decorate([
     (0, typeorm_1.Column)({
+        type: 'varchar',
+        length: 255,
+        name: 'nickname',
+        nullable: true,
+        comment: '昵称',
+    }),
+    __metadata("design:type", String)
+], AccountEntity.prototype, "nickname", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        type: 'text',
+        name: 'info',
+        nullable: true,
+        comment: '简介',
+    }),
+    __metadata("design:type", String)
+], AccountEntity.prototype, "info", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        type: 'varchar',
+        length: 255,
+        name: 'avatar',
+        nullable: true,
+        comment: '头像',
+    }),
+    __metadata("design:type", String)
+], AccountEntity.prototype, "avatar", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        type: 'int',
+        name: 'gender',
+        comment: '性别',
+    }),
+    __metadata("design:type", Number)
+], AccountEntity.prototype, "gender", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        type: 'int',
+        name: 'age',
+        comment: '年龄',
+    }),
+    __metadata("design:type", Number)
+], AccountEntity.prototype, "age", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
         type: 'tinyint',
         name: 'account_type',
         nullable: true,

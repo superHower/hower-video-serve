@@ -7,9 +7,12 @@ export declare class VideoVo extends QueryVo {
     readonly videoUrl: string;
     readonly duration: number;
     readonly fileSize: number;
-    readonly tags: number;
+    readonly tags: string;
     readonly status: number;
     readonly accountId: number;
+    readonly accountName: string;
+    readonly accountAvatar: string;
+    readonly accountNickname: string;
     readonly playCount: number;
     readonly likeCount: number;
     readonly favoriteCount: number;
